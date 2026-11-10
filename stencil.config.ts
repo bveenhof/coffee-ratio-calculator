@@ -2,6 +2,7 @@ import { Config } from '@stencil/core';
 
 export const config: Config = {
   namespace: 'coffee-ratio-calculator',
+  globalStyle: 'global.css',
   outputTargets: [
     {
       type: 'dist',

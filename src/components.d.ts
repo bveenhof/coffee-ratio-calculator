@@ -7,18 +7,6 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface CoffeeCalculator {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
     }
 }
 declare global {
@@ -34,28 +22,9 @@ declare global {
 }
 declare namespace LocalJSX {
     interface CoffeeCalculator {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
     }
-
-    interface CoffeeCalculatorAttributes {
-        "first": string;
-        "middle": string;
-        "last": string;
-    }
-
     interface IntrinsicElements {
-        "coffee-calculator": Omit<CoffeeCalculator, keyof CoffeeCalculatorAttributes> & { [K in keyof CoffeeCalculator & keyof CoffeeCalculatorAttributes]?: CoffeeCalculator[K] } & { [K in keyof CoffeeCalculator & keyof CoffeeCalculatorAttributes as `attr:${K}`]?: CoffeeCalculatorAttributes[K] } & { [K in keyof CoffeeCalculator & keyof CoffeeCalculatorAttributes as `prop:${K}`]?: CoffeeCalculator[K] };
+        "coffee-calculator": CoffeeCalculator;
     }
 }
 export { LocalJSX as JSX };

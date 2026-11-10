@@ -1,111 +1,81 @@
-[![Built With Stencil](https://img.shields.io/badge/-Built%20With%20Stencil-16161d.svg?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI%2BCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI%2BCgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9Cjwvc3R5bGU%2BCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00MjQuNywzNzMuOWMwLDM3LjYtNTUuMSw2OC42LTkyLjcsNjguNkgxODAuNGMtMzcuOSwwLTkyLjctMzAuNy05Mi43LTY4LjZ2LTMuNmgzMzYuOVYzNzMuOXoiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTQyNC43LDI5Mi4xSDE4MC40Yy0zNy42LDAtOTIuNy0zMS05Mi43LTY4LjZ2LTMuNkgzMzJjMzcuNiwwLDkyLjcsMzEsOTIuNyw2OC42VjI5Mi4xeiIvPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNDI0LjcsMTQxLjdIODcuN3YtMy42YzAtMzcuNiw1NC44LTY4LjYsOTIuNy02OC42SDMzMmMzNy45LDAsOTIuNywzMC43LDkyLjcsNjguNlYxNDEuN3oiLz4KPC9zdmc%2BCg%3D%3D&colorA=16161d&style=flat-square)](https://stenciljs.com)
+# Coffee ratio calculator
 
-# Stencil Component Starter
+A Stencil web component for calculating starting recipes for filter coffee,
+AeroPress, espresso and moka pot. The interface is in Dutch.
 
-> This is a starter project for building a standalone Web Components using Stencil.
-
-Stencil is a compiler for building fast web apps using Web Components.
-
-Stencil combines the best concepts of the most popular frontend frameworks into a compile-time rather than runtime tool. Stencil takes TypeScript, JSX, a tiny virtual DOM layer, efficient one-way data binding, an asynchronous rendering pipeline (similar to React Fiber), and lazy-loading out of the box, and generates 100% standards-based Web Components that run in any browser supporting the Custom Elements specification.
-
-Stencil components are just Web Components, so they work in any major framework or with no framework at all.
-
-## Getting Started
-
-To start building a new web component using Stencil, clone this repo to a new directory:
-
-```bash
-git clone https://github.com/stenciljs/component-starter.git coffee-calculator
-cd coffee-calculator
-git remote rm origin
-```
-
-and run:
+## Development
 
 ```bash
 npm install
 npm start
 ```
 
-To build the component for production, run:
+Run `npm run build` for a production build and `npm test -- --project browser`
+for the component tests. The full `npm test` currently also includes an empty
+starter unit-test suite, which Vitest reports as a failure.
 
-```bash
-npm run build
+## Usage
+
+After building or installing the package, import the standalone component:
+
+```js
+import 'coffee-ratio-calculator/coffee-calculator';
 ```
 
-To run the unit tests for the components, run:
-
-```bash
-npm test
-```
-
-Need help? Check out our docs [here](https://stenciljs.com/docs/my-first-component).
-
-## Naming Components
-
-When creating new component tags, we recommend _not_ using `stencil` in the component name (ex: `<stencil-datepicker>`). This is because the generated component has little to nothing to do with Stencil; it's just a web component!
-
-Instead, use a prefix that fits your company or any name for a group of related components. For example, all of the [Ionic-generated](https://ionicframework.com/) web components use the prefix `ion`.
-
-## Using this component
-
-There are two strategies we recommend for using web components built with Stencil.
-
-The first step for all two of these strategies is to [publish to NPM](https://docs.npmjs.com/getting-started/publishing-npm-packages).
-
-You can read more about these different approaches in the [Stencil docs](https://stenciljs.com/docs/publishing).
-
-### Lazy Loading
-
-If your Stencil project is built with the [`dist`](https://stenciljs.com/docs/distribution) output target, you can import a small bootstrap script that registers all components and allows you to load individual component scripts lazily.
-
-For example, given your Stencil project namespace is called `my-design-system`, to use `coffee-calculator` on any website, inject this into your HTML:
+Then add it to your page:
 
 ```html
-<script type="module" src="https://unpkg.com/my-design-system"></script>
-<!--
-To avoid unpkg.com redirects to the actual file, you can also directly import:
-https://unpkg.com/foobar-design-system@0.0.1/dist/foobar-design-system/foobar-design-system.esm.js
--->
-<coffee-calculator first="Stencil" middle="'Don't call me a framework'" last="JS"></coffee-calculator>
+<coffee-calculator></coffee-calculator>
 ```
 
-This will only load the necessary scripts needed to render `<coffee-calculator />`. Once more components of this package are used, they will automatically be loaded lazily.
+Alternatively, register the lazy-loaded components with the package loader:
 
-You can also import the script as part of your `node_modules` in your applications entry file:
+```js
+import { defineCustomElements } from 'coffee-ratio-calculator/loader';
 
-```tsx
-import 'foobar-design-system/dist/foobar-design-system/foobar-design-system.esm.js';
+defineCustomElements();
 ```
 
-Check out this [Live Demo](https://stackblitz.com/edit/vitejs-vite-y6v26a?file=src%2Fmain.tsx).
+The demo application's global styles are in [global.css](./global.css), configured
+through `globalStyle` in [stencil.config.ts](./stencil.config.ts). Its page
+background is dark brown with white text for contrast. Applications embedding
+the component should set their own page-level styles.
 
-### Standalone
+## Recipes
 
-If you are using a Stencil component library with `dist-custom-elements`, we recommend importing Stencil components individually in those files where they are needed.
+Choose a brewing method and 1–10 cups. Results are starting points, not
+prescriptive recipes; adjust to taste and equipment. Coffee is calculated
+from the unrounded total and displayed to at most one decimal place.
+All method definitions use the same ratio, for example
+`ratio: { coffee: 1, amount: 15 }` for filter coffee. The amount is
+water for filter, AeroPress and moka pot, but espresso yield for espresso.
+`amountPerCup` specifies the corresponding amount per serving. To calculate
+coffee, multiply the total amount by the coffee part of the ratio and divide
+by the amount part. For example, 450 ml of filter water corresponds to 30 g
+of coffee at 1:15.
+Choose mild, normal or strong to use 10% less coffee, the recipe amount, or
+10% more coffee, respectively. This changes only the coffee amount; water or
+espresso yield stays the same. The displayed ratio reflects the selected
+strength, while the table below lists the normal recipe ratios.
 
-To export Stencil components as standalone components make sure you have the [`dist-custom-elements`](https://stenciljs.com/docs/custom-elements) output target defined in your `stencil.config.ts`.
+| Method | Per cup | Ratio by weight | Grind | Water temperature |
+| --- | --- | --- | --- | --- |
+| Filter | 230 ml water | 1 g coffee : 15 g water | Medium | 94 °C when brewing |
+| AeroPress | 200 ml water | 1 g coffee : 14 g water | Medium-fine | 90 °C when brewing |
+| Espresso | 18 g coffee, 36 g espresso yield (a double shot) | 1 g coffee : 2 g espresso yield | Fine | 93 °C machine brew temperature |
+| Moka pot | 50 ml water | 1 g coffee : 10 g water | Medium-fine to fine | 90 °C when filling |
 
-For example, given you'd like to use `<coffee-calculator />` as part of a React component, you can import the component directly via:
+Water volumes are approximated as 1 ml per gram. Espresso yield is the
+weight in the cup, **not** the water supplied to the machine; machine water
+consumption varies. Larger AeroPress recipes may require multiple batches.
+Moka pot capacity determines the amount to brew: fill the basket and keep
+water below the safety valve rather than treating the calculated amounts as
+an instruction to overfill or partially fill a pot.
+The moka pot temperature is for the water added to the reservoir, not a
+controlled brewing temperature. Use a cloth or oven mitt when handling the
+hot reservoir. All temperatures are starting points and can be adjusted to
+the coffee and equipment.
 
-```tsx
-import 'foobar-design-system/coffee-calculator';
-
-function App() {
-  return (
-    <>
-      <div>
-        <coffee-calculator
-          first="Stencil"
-          middle="'Don't call me a framework'"
-          last="JS"
-        ></coffee-calculator>
-      </div>
-    </>
-  );
-}
-
-export default App;
-```
-
-Check out this [Live Demo](https://stackblitz.com/edit/vitejs-vite-b6zuds?file=src%2FApp.tsx).
+The component uses native, labelled radio buttons and a range input, and
+announces updated results. When adding styles, retain visible keyboard focus
+and sufficient contrast; do not hide the controls from assistive technology.
