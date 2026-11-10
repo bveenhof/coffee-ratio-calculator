@@ -13,9 +13,9 @@ describe('coffee-calculator', () => {
     expect(shadow.querySelector<HTMLInputElement>('input[value="filter"]')?.checked).toBe(true);
     expect(shadow.querySelector<HTMLInputElement>('input[name="coffee-strength"][value="normal"]')?.checked).toBe(true);
     expect(shadow.querySelector('#cups-label')?.textContent).toContain('Aantal kopjes');
-    expect(value.textContent).toBe('2 kopjes');
-    expect(shadow.querySelector('.results')?.textContent).toContain('460 ml');
-    expect(shadow.querySelector('.results')?.textContent).toContain('30,7 g');
+    expect(value.textContent).toBe('1 kopje');
+    expect(shadow.querySelector('.results')?.textContent).toContain('250 ml');
+    expect(shadow.querySelector('.results')?.textContent).toContain('16,7 g');
     expect(shadow.querySelector('.results')?.textContent).toContain('1 : 15');
     expect(shadow.querySelector('.results')?.getAttribute('aria-live')).toBe('polite');
   });
@@ -30,11 +30,11 @@ describe('coffee-calculator', () => {
     dec.click();
     await waitForChanges();
     expect(value.textContent).toBe('1 kopje');
-    expect(shadow.querySelector('.results')?.textContent).toContain('230 ml');
-    expect(shadow.querySelector('.results')?.textContent).toContain('15,3 g');
+    expect(shadow.querySelector('.results')?.textContent).toContain('250 ml');
+    expect(shadow.querySelector('.results')?.textContent).toContain('16,7 g');
 
     const cases = [
-      { id: 'aeropress', expected: ['200 ml', '14,3 g', '1 : 14', 'Middelfijn', 'meerdere batches'] },
+      { id: 'aeropress', expected: ['230 ml', '16,4 g', '1 : 14', 'Middelfijn', 'meerdere batches'] },
       { id: 'espresso', expected: ['18 g', '36 g', '1 : 2', 'Fijn', 'water die de machine gebruikt verschilt'] },
       { id: 'moka-pot', expected: ['50 ml', '5 g', '1 : 10', 'veiligheidsventiel'] },
     ];
@@ -54,7 +54,7 @@ describe('coffee-calculator', () => {
       }
     }
 
-    for (let i = 0; i < 8; i++) inc.click();
+    for (let i = 0; i < 9; i++) inc.click();
     await waitForChanges();
     expect(value.textContent).toBe('10 kopjes');
     expect(shadow.querySelector('.results')?.textContent).toContain('500 ml');
@@ -65,8 +65,8 @@ describe('coffee-calculator', () => {
     const { root, waitForChanges } = await render(<coffee-calculator />);
     const shadow = root.shadowRoot!;
     const cases = [
-      { id: 'filter', amountLabel: 'Water', amount: '230 ml', coffee: ['13,8 g', '15,3 g', '16,9 g'], ratios: ['1 : 16,7', '1 : 15', '1 : 13,6'] },
-      { id: 'aeropress', amountLabel: 'Water', amount: '200 ml', coffee: ['12,9 g', '14,3 g', '15,7 g'], ratios: ['1 : 15,6', '1 : 14', '1 : 12,7'] },
+      { id: 'filter', amountLabel: 'Water', amount: '250 ml', coffee: ['15 g', '16,7 g', '18,3 g'], ratios: ['1 : 16,7', '1 : 15', '1 : 13,6'] },
+      { id: 'aeropress', amountLabel: 'Water', amount: '230 ml', coffee: ['14,8 g', '16,4 g', '18,1 g'], ratios: ['1 : 15,6', '1 : 14', '1 : 12,7'] },
       { id: 'espresso', amountLabel: 'Espresso-opbrengst', amount: '36 g', coffee: ['16,2 g', '18 g', '19,8 g'], ratios: ['1 : 2,2', '1 : 2', '1 : 1,8'] },
       { id: 'moka-pot', amountLabel: 'Water', amount: '50 ml', coffee: ['4,5 g', '5 g', '5,5 g'], ratios: ['1 : 11,1', '1 : 10', '1 : 9,1'] },
     ];
@@ -102,7 +102,7 @@ describe('coffee-calculator', () => {
     const shadow = root.shadowRoot!;
     const cases = [
       { id: 'filter', label: 'Watertemperatuur bij zetten', temperature: '94 °C' },
-      { id: 'aeropress', label: 'Watertemperatuur bij zetten', temperature: '90 °C' },
+      { id: 'aeropress', label: 'Watertemperatuur bij zetten', temperature: '95 °C' },
       { id: 'espresso', label: 'Watertemperatuur van de machine bij zetten', temperature: '93 °C' },
       { id: 'moka-pot', label: 'Watertemperatuur bij vullen', temperature: '90 °C' },
     ];
@@ -115,7 +115,7 @@ describe('coffee-calculator', () => {
     }
 
     const inc = shadow.querySelector<HTMLButtonElement>('#cups-increase')!;
-    for (let i = 0; i < 8; i++) inc.click();
+    for (let i = 0; i < 9; i++) inc.click();
     await waitForChanges();
     expect(shadow.querySelector('.results')?.textContent).toContain('Watertemperatuur bij vullen90 °C');
     expect(shadow.querySelector('.results')?.textContent).toContain('ovenwant');
@@ -125,12 +125,12 @@ describe('coffee-calculator', () => {
     const { root, waitForChanges } = await render(<coffee-calculator />);
     const shadow = root.shadowRoot!;
     const inc = shadow.querySelector<HTMLButtonElement>('#cups-increase')!;
-    for (let i = 0; i < 8; i++) inc.click();
+    for (let i = 0; i < 9; i++) inc.click();
     await waitForChanges();
 
     const cases = [
-      { id: 'filter', coffee: '153,3 g', result: '2.300 ml', label: 'Water' },
-      { id: 'aeropress', coffee: '142,9 g', result: '2.000 ml', label: 'Water' },
+      { id: 'filter', coffee: '166,7 g', result: '2.500 ml', label: 'Water' },
+      { id: 'aeropress', coffee: '164,3 g', result: '2.300 ml', label: 'Water' },
       { id: 'espresso', coffee: '180 g', result: '360 g', label: 'Espresso-opbrengst' },
       { id: 'moka-pot', coffee: '50 g', result: '500 ml', label: 'Water' },
     ];
@@ -156,12 +156,12 @@ describe('coffee-calculator', () => {
     await userEvent.keyboard('{ArrowRight}');
     await waitForChanges();
     expect(aeropress.checked).toBe(true);
-    expect(shadow.querySelector('.results')?.textContent).toContain('400 ml');
+    expect(shadow.querySelector('.results')?.textContent).toContain('230 ml');
 
     inc.focus();
     await userEvent.keyboard('{Enter}');
     await waitForChanges();
-    expect(value.textContent).toBe('3 kopjes');
-    expect(shadow.querySelector('.results')?.textContent).toContain('600 ml');
+    expect(value.textContent).toBe('2 kopjes');
+    expect(shadow.querySelector('.results')?.textContent).toContain('460 ml');
   });
 });

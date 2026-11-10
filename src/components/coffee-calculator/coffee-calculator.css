@@ -1,3 +1,65 @@
 :host {
   display: block;
+  width: 100%;
+}
+
+.coffee-calculator__container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #eeebe5;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+  overflow: hidden;
+}
+
+.coffee-calculator__controls {
+  padding: 2rem;
+}
+
+.coffee-calculator__results {
+  padding: 2rem;
+  background-color: #e4dfd5;
+}
+
+.coffee-calculator__radio-list label {
+  position: relative;
+  padding: 1rem;
+  border-radius: .5rem;
+  background-color: #6c5e51;
+  color: white;
+  transition: background-color 0.32s ease-in-out;
+}
+
+  .coffee-calculator__radio-list label:hover {
+    background-color: #3b3229;
+  }
+
+.coffee-calculator__radio-list input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0; 
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+@media screen and (min-width: 768px) {
+  .coffee-calculator__container {
+    flex-direction: row;
+    min-height: 25rem;
+  }
+
+  .coffee-calculator__controls {
+    padding-right: 0;
+    flex: 1 1 40%;
+  }
+
+  .coffee-calculator__results {
+    flex: 1 1 20%;
+  }
 }

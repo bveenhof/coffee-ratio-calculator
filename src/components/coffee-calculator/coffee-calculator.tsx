@@ -1,20 +1,6 @@
 import { Component, State, h } from '@stencil/core';
-
-interface BrewMethod {
-  id: 'filter' | 'aeropress' | 'espresso' | 'moka-pot';
-  name: string;
-  grindSize: string;
-  amountPerCup: number;
-  ratio: { coffee: number; amount: number };
-  resultLabel: string;
-  ratioLabel: string;
-  unit: 'ml' | 'g';
-  waterTemperatureC: number;
-  temperatureLabel: string;
-  note?: string;
-}
-
-type CoffeeStrength = 'mild' | 'normal' | 'strong';
+import { BrewMethod, CoffeeStrength } from './types';
+import { methods } from './mock-data';
 
 const coffeeStrengths: { id: CoffeeStrength; label: string }[] = [
   { id: 'mild', label: 'Mild' },
@@ -27,60 +13,6 @@ const strengthMultipliers: Record<CoffeeStrength, number> = {
   normal: 1,
   strong: 1.1,
 };
-
-const methods: BrewMethod[] = [
-  {
-    id: 'filter',
-    name: 'Filterkoffie',
-    grindSize: 'Gemiddeld',
-    amountPerCup: 250,
-    ratio: { coffee: 1, amount: 15 },
-    resultLabel: 'Water',
-    ratioLabel: 'water',
-    unit: 'ml',
-    waterTemperatureC: 94,
-    temperatureLabel: 'Watertemperatuur bij zetten',
-  },
-  {
-    id: 'aeropress',
-    name: 'AeroPress',
-    grindSize: 'Middelfijn',
-    amountPerCup: 230,
-    ratio: { coffee: 1, amount: 14 },
-    resultLabel: 'Water',
-    ratioLabel: 'water',
-    unit: 'ml',
-    waterTemperatureC: 95,
-    temperatureLabel: 'Watertemperatuur bij zetten',
-    note: 'Zet grotere hoeveelheden in meerdere batches als ze niet in je AeroPress passen.',
-  },
-  {
-    id: 'espresso',
-    name: 'Espresso',
-    grindSize: 'Fijn',
-    amountPerCup: 36,
-    ratio: { coffee: 1, amount: 2 },
-    resultLabel: 'Espresso-opbrengst',
-    ratioLabel: 'espresso-opbrengst',
-    unit: 'g',
-    waterTemperatureC: 93,
-    temperatureLabel: 'Watertemperatuur van de machine bij zetten',
-    note: 'Eén kopje is een dubbele espresso. De hoeveelheid water die de machine gebruikt verschilt; de opbrengst is het gewicht van de espresso in je kopje.',
-  },
-  {
-    id: 'moka-pot',
-    name: 'Mokapot',
-    grindSize: 'Middelfijn tot fijn',
-    amountPerCup: 50,
-    ratio: { coffee: 1, amount: 10 },
-    resultLabel: 'Water',
-    ratioLabel: 'water',
-    unit: 'ml',
-    waterTemperatureC: 90,
-    temperatureLabel: 'Watertemperatuur bij vullen',
-    note: 'Gebruik een mokapot met passende capaciteit: vul het filtermandje met koffie en het waterreservoir tot onder het veiligheidsventiel. Gebruik een doek of ovenwant bij het vastpakken van het hete reservoir. De aangegeven hoeveelheden zijn een richtlijn.',
-  },
-];
 
 const formatAmount = (value: number): string =>
   new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 1 }).format(value);
@@ -108,7 +40,7 @@ export class CoffeeCalculator {
     const ratioAmount = method.ratio.amount / strengthMultiplier;
 
     const renderedBrewMethodOptions = methods.map(option => (
-                <label class={{ 'card-option': true, 'is-selected': method.id === option.id }}>
+                <label class={{ 'coffee-calculator__radio-option': true, 'coffee-calculator__radio-option--is-selected': method.id === option.id }}>
                   <input
                     type="radio"
                     name="brew-method"
@@ -121,7 +53,7 @@ export class CoffeeCalculator {
               ))
 
     const renderedCoffeeStrengthOptions = coffeeStrengths.map(option => (
-                <label class={{ 'card-option': true, 'is-selected': this.selectedStrength === option.id }}>
+                <label class={{ 'coffee-calculator__radio-option': true, 'coffee-calculator__radio-option--is-selected': this.selectedStrength === option.id }}>
                   <input
                     type="radio"
                     name="coffee-strength"
@@ -134,22 +66,20 @@ export class CoffeeCalculator {
               ))
 
     return (
-      <div class="calculator-container" lang="nl">
-        <section>
-          <header class="header">
+      <div class="coffee-calculator__container" lang="nl">
+        <section class="coffee-calculator__controls">
+          <header>
             <h2>Koffie-waterverhouding</h2>
             <p>Een startpunt voor verschillende bereidingswijzen</p>
           </header>
 
-          <fieldset class="brewing-methods">
+          <fieldset class="coffee-calculator__radio-list">
             <legend>Kies je bereidingswijze</legend>
-            <div>
-              {renderedBrewMethodOptions}
-            </div>
+            {renderedBrewMethodOptions}
           </fieldset>
 
-          <div class="cup-amount">
-            <span>Aantal kopjes</span>
+          <div class="coffee-calculator__cup-amount">
+            <span id="cups-label">Aantal kopjes</span>
             <div role="group" aria-labelledby="cups-label">
               <button
                 type="button"
@@ -161,7 +91,7 @@ export class CoffeeCalculator {
               >
                 -
               </button>
-              <span>{this.cups} {cupLabel}</span>
+              <span id="coffee-calculator__cups-value">{this.cups} {cupLabel}</span>
               <button
                 type="button"
                 class="button"
@@ -175,38 +105,44 @@ export class CoffeeCalculator {
             </div>
           </div>
 
-          <fieldset class="coffee-strength">
+          <fieldset class="coffee-calculator__radio-list">
             <legend>Kies je sterkte</legend>
-            <div>
               {renderedCoffeeStrengthOptions}
-            </div>
           </fieldset>
         </section>
 
-        <section class="results" aria-labelledby="results-heading" aria-live="polite" aria-atomic="true">
+        <section class="coffee-calculator__results" aria-labelledby="results-heading" aria-live="polite" aria-atomic="true">
           <h3 id="results-heading">Aanbevolen hoeveelheden</h3>
-          <dl>
-            <dt>Bereidingswijze</dt>
-            <dd>{method.name}</dd>
-
-            <dt>Aantal kopjes</dt>
-            <dd>{this.cups} {cupLabel}</dd>
-
-            <dt>Koffie</dt>
-            <dd>{formatAmount(coffee)} g</dd>
-
-            <dt>{method.resultLabel}</dt>
-            <dd>{formatAmount(amount)} {method.unit}</dd>
-
-            <dt>Verhouding koffie : {method.ratioLabel}</dt>
-            <dd>1 : {formatAmount(ratioAmount)}</dd>
-
-            <dt>Maalgraad</dt>
-            <dd>{method.grindSize}</dd>
-            
-            <dt>{method.temperatureLabel}</dt>
-            <dd>{method.waterTemperatureC} °C</dd>
-          </dl>
+          <ul>
+            <li>
+              <strong>Bereidingswijze</strong>
+              <span>{method.name}</span>
+            </li>
+            <li>
+              <strong>Aantal kopjes</strong>
+              <span>{this.cups} {cupLabel}</span>
+            </li>
+            <li>
+              <strong>Koffie</strong>
+              <span>{formatAmount(coffee)}g</span>
+            </li>
+            <li>
+              <strong>{method.resultLabel}</strong>
+              <span>{formatAmount(amount)} {method.unit}</span>
+            </li>
+            <li>
+              <strong>Verhouding</strong>
+              <span>1:{formatAmount(ratioAmount)}</span>
+            </li>
+            <li>
+              <strong>Maalgraad</strong>
+              <span>{method.grindSize}</span>
+            </li>
+            <li>
+              <strong>Watertemperatuur</strong>
+              <span>{method.waterTemperatureC} °C</span>
+            </li>
+          </ul>
           {method.note && <p>{method.note}</p>}
         </section>
       </div>
