@@ -1,7 +1,7 @@
 # Coffee ratio calculator
 
-A Stencil web component for calculating starting recipes for filter coffee,
-AeroPress, espresso and moka pot. The interface is in Dutch.
+A Stencil web component for calculating the ideal coffee - water ratio for several brewing methods.
+
 
 ## Development
 
@@ -13,6 +13,7 @@ npm start
 Run `npm run build` for a production build and `npm test -- --project browser`
 for the component tests. The full `npm test` currently also includes an empty
 starter unit-test suite, which Vitest reports as a failure.
+
 
 ## Usage
 
@@ -28,73 +29,22 @@ Then add it to your page:
 <coffee-calculator></coffee-calculator>
 ```
 
-The component uses its built-in example recipes if `methods` is omitted or
-empty. To provide your own recipes, assign an array as a JavaScript property,
-not an HTML attribute. A non-array value (such as a URL string) displays an
-error; load and parse URL data in your application before assigning it:
 
-```js
-import { defaultBrewMethods } from 'coffee-ratio-calculator';
+## ToDo
 
-const calculator = document.querySelector('coffee-calculator');
-calculator.methods = defaultBrewMethods;
-```
+Use the @methods to actually feed data to the component. I tried to make this work in this small environment, but couldn't get it to work for now.
+Due to limited time, I decided to use the mockdata instead.
 
-The `methods` property expects an array of recipe objects, not a file URL. Load
-data from a URL in your application first, then assign the parsed array.
+Add more props to control filters and allow for more customization.
 
-Each method follows the `BrewMethod` type exported by the package. When the
-provided methods change, the current selection is kept if its `id` is still
-available; otherwise, the first method is selected.
 
-Alternatively, register the lazy-loaded components with the package loader:
+## AI usage
 
-```js
-import { defineCustomElements } from 'coffee-ratio-calculator/loader';
+I used CoPilot to assist me while setting this component up. I used it for:
+writing the tests (with all the changing numbers, this gets tedious and time consuming). This sped developing the tests up a lot
 
-defineCustomElements();
-```
-
-The demo application's global styles are in [global.css](./global.css), configured
-through `globalStyle` in [stencil.config.ts](./stencil.config.ts). Its page
-background is dark brown with white text for contrast. Applications embedding
-the component should set their own page-level styles.
-
-## Recipes
-
-Choose a brewing method and 1–10 cups. Results are starting points, not
-prescriptive recipes; adjust to taste and equipment. Coffee is calculated
-from the unrounded total and displayed to at most one decimal place.
-All method definitions use the same ratio, for example
-`ratio: { coffee: 1, amount: 15 }` for filter coffee. The amount is
-water for filter, AeroPress and moka pot, but espresso yield for espresso.
-`amountPerCup` specifies the corresponding amount per serving. To calculate
-coffee, multiply the total amount by the coffee part of the ratio and divide
-by the amount part. For example, 450 ml of filter water corresponds to 30 g
-of coffee at 1:15.
-Choose mild, normal or strong to use 10% less coffee, the recipe amount, or
-10% more coffee, respectively. This changes only the coffee amount; water or
-espresso yield stays the same. The displayed ratio reflects the selected
-strength, while the table below lists the normal recipe ratios.
-
-| Method | Per cup | Ratio by weight | Grind | Water temperature |
-| --- | --- | --- | --- | --- |
-| Filter | 230 ml water | 1 g coffee : 15 g water | Medium | 94 °C when brewing |
-| AeroPress | 200 ml water | 1 g coffee : 14 g water | Medium-fine | 90 °C when brewing |
-| Espresso | 18 g coffee, 36 g espresso yield (a double shot) | 1 g coffee : 2 g espresso yield | Fine | 93 °C machine brew temperature |
-| Moka pot | 50 ml water | 1 g coffee : 10 g water | Medium-fine to fine | 90 °C when filling |
-
-Water volumes are approximated as 1 ml per gram. Espresso yield is the
-weight in the cup, **not** the water supplied to the machine; machine water
-consumption varies. Larger AeroPress recipes may require multiple batches.
-Moka pot capacity determines the amount to brew: fill the basket and keep
-water below the safety valve rather than treating the calculated amounts as
-an instruction to overfill or partially fill a pot.
-The moka pot temperature is for the water added to the reservoir, not a
-controlled brewing temperature. Use a cloth or oven mitt when handling the
-hot reservoir. All temperatures are starting points and can be adjusted to
-the coffee and equipment.
-
-The component uses native, labelled radio buttons and a range input, and
-announces updated results. When adding styles, retain visible keyboard focus
-and sufficient contrast; do not hide the controls from assistive technology.
+Doing some checks: 
+ - Do I meet best practices for Stencil.js?
+ - Are there any unused imports, unused code or unused styling?
+ - Check if the HTML makes sense, semantically and in terms of accessibility.
+ 
