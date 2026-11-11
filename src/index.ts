@@ -10,3 +10,4 @@
 
 
 export type * from './components.d.ts';
+export { methods as defaultBrewMethods } from './components/coffee-calculator/mock-data.js';

@@ -20,5 +20,12 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null, // disable service workers
     },
+    {
+      type: 'www',
+      serviceWorker: null,
+      copy: [
+        { src: 'components/assets', dest: 'build/assets', warn: true },
+      ],
+    },
   ],
 };

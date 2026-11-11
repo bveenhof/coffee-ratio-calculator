@@ -1,3 +1,7 @@
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
 html,
 body {
   margin: 0;
@@ -10,12 +14,20 @@ body {
   color: #272727;
   font-family: Arial, sans-serif;
   font-size: 16px;
+  line-height: 1.5rem;
+  background-color: rgb(93 40 9);
+  background-image: url('/build/assets/coffee-background.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(10px);
 }
 
 .container {
   max-width: 75rem;
   margin: 0 auto;
   display: flex;
+  padding: 1rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -23,19 +35,69 @@ h1, h2, h3, h4, h5, h6 {
   color: #343434;
 }
 
+h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
 ul {
   list-style: none;
   padding: 0;
 }
 
-  ul li {
-    display: flex;
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  min-inline-size: unset;
+  margin-bottom: 1rem;
+}
+
+  fieldset legend {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
   }
+
+button {
+  outline: none;
+  border-radius: 50%;
+  border: 1px solid #5d2406;
+  background: transparent;
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+  height: 3rem;
+  width: 3rem;
+  line-height: 1;
+  transition: background-color 0.32s ease-in-out, color 0.32s ease-in-out;
+}
+
+  button:hover:enabled {
+    background-color: #6c5e51;
+    color: white;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    border-color: #bb9469;
+  }
+
+.icon {
+    width: auto;
+    height: 2rem;
+}
 
 @media screen and (min-width: 768px) {
   .container {
     justify-content: center;
     align-items: center;
     height: 100%;
+    padding: 0 2rem;
   }
 }

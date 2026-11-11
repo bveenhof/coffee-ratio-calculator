@@ -1,6 +1,6 @@
-import { Component, State, h } from '@stencil/core';
+import { Component, Prop, State, Watch, h } from '@stencil/core';
 import { BrewMethod, CoffeeStrength } from './types';
-import { methods } from './mock-data';
+import { methods as mockMethods } from './mock-data';
 
 const coffeeStrengths: { id: CoffeeStrength; label: string }[] = [
   { id: 'mild', label: 'Mild' },
@@ -23,16 +23,37 @@ const formatAmount = (value: number): string =>
   shadow: true,
 })
 export class CoffeeCalculator {
-  @State() selectedMethod: BrewMethod = methods[0];
+  /** Brew methods to display. */
+  @Prop() methods: BrewMethod[] = mockMethods;
+  @State() selectedMethodId = '';
   @State() cups = 1;
   @State() selectedStrength: CoffeeStrength = 'normal';
+
+  @Watch('methods')
+  handleMethodsChange() {
+    const methods = Array.isArray(this.methods) ? this.methods : [];
+    if (!methods.some(method => method.id === this.selectedMethodId)) {
+      this.selectedMethodId = methods[0]?.id ?? '';
+    }
+  }
 
   private changeCups = (cupModifier: number) => {
     this.cups = Math.min(10, Math.max(1, this.cups + cupModifier));
   };
 
   render() {
-    const method = this.selectedMethod;
+    const methods = Array.isArray(this.methods) ? this.methods : [];
+    if (methods.length === 0) {
+      return (
+        <div class="coffee-calculator__container coffee-calculator__container--error" lang="nl" role="alert">
+          <img src="build/assets/icon-error.svg" alt="Foutmelding: er is geen data beschikbaar" class="icon" />
+          <h2>Er zijn geen zetmethodes beschikbaar.</h2>
+        </div>
+      );
+    }
+
+    const method = methods.find(option => option.id === this.selectedMethodId) ?? methods[0];
+
     const strengthMultiplier = strengthMultipliers[this.selectedStrength];
     const cupLabel = this.cups === 1 ? 'kopje' : 'kopjes';
     const amount = method.amountPerCup * this.cups;
@@ -46,7 +67,7 @@ export class CoffeeCalculator {
                     name="brew-method"
                     value={option.id}
                     checked={method.id === option.id}
-                    onChange={() => { this.selectedMethod = option; }}
+                    onChange={() => { this.selectedMethodId = option.id; }}
                   />
                   <span>{option.name}</span>
                 </label>
@@ -61,7 +82,7 @@ export class CoffeeCalculator {
                     checked={this.selectedStrength === option.id}
                     onChange={() => { this.selectedStrength = option.id; }}
                   />
-                  <span class="card-title">{option.label}</span>
+                  <span>{option.label}</span>
                 </label>
               ))
 
@@ -69,18 +90,23 @@ export class CoffeeCalculator {
       <div class="coffee-calculator__container" lang="nl">
         <section class="coffee-calculator__controls">
           <header>
-            <h2>Koffie-waterverhouding</h2>
+            <h2 class="coffee-calculator__title">
+              <img src="build/assets/coffee-bean-icon.svg" alt="" class="icon" />
+              Koffie-waterverhouding
+            </h2>
             <p>Een startpunt voor verschillende bereidingswijzen</p>
           </header>
 
           <fieldset class="coffee-calculator__radio-list">
             <legend>Kies je bereidingswijze</legend>
-            {renderedBrewMethodOptions}
+            <div class="coffee-calculator__radio-list-items">
+              {renderedBrewMethodOptions}
+            </div>
           </fieldset>
 
           <div class="coffee-calculator__cup-amount">
-            <span id="cups-label">Aantal kopjes</span>
-            <div role="group" aria-labelledby="cups-label">
+            <h3 id="cups-label">Aantal kopjes</h3>
+            <div role="group" aria-labelledby="cups-label" class="coffee-calculator__cup-amount-controls">
               <button
                 type="button"
                 class="button"
@@ -107,13 +133,15 @@ export class CoffeeCalculator {
 
           <fieldset class="coffee-calculator__radio-list">
             <legend>Kies je sterkte</legend>
-              {renderedCoffeeStrengthOptions}
+              <div class="coffee-calculator__radio-list-items">
+                {renderedCoffeeStrengthOptions}
+              </div>
           </fieldset>
         </section>
 
         <section class="coffee-calculator__results" aria-labelledby="results-heading" aria-live="polite" aria-atomic="true">
           <h3 id="results-heading">Aanbevolen hoeveelheden</h3>
-          <ul>
+          <ul class="coffee-calculator__results-list">
             <li>
               <strong>Bereidingswijze</strong>
               <span>{method.name}</span>

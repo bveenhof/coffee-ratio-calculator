@@ -5,8 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { BrewMethod } from "./components/coffee-calculator/types";
+export { BrewMethod } from "./components/coffee-calculator/types";
 export namespace Components {
     interface CoffeeCalculator {
+        /**
+          * Brew methods to display.
+          * @default [   {     id: 'filter',     name: 'Filterkoffie',     grindSize: 'Gemiddeld',     amountPerCup: 250,     ratio: { coffee: 1, amount: 15 },     resultLabel: 'Water',     unit: 'ml',     waterTemperatureC: 94,   },   {     id: 'aeropress',     name: 'AeroPress',     grindSize: 'Middelfijn',     amountPerCup: 230,     ratio: { coffee: 1, amount: 14 },     resultLabel: 'Water',     unit: 'ml',     waterTemperatureC: 95,     note: 'Zet grotere hoeveelheden in meerdere batches als ze niet in je AeroPress passen.',   },   {     id: 'espresso',     name: 'Espresso',     grindSize: 'Fijn',     amountPerCup: 36,     ratio: { coffee: 1, amount: 2 },     resultLabel: 'Espresso-opbrengst',     unit: 'g',     waterTemperatureC: 93,     note: 'Eén kopje is een dubbele espresso. De hoeveelheid water die de machine gebruikt verschilt; de opbrengst is het gewicht van de espresso in je kopje.',   },   {     id: 'moka-pot',     name: 'Mokapot',     grindSize: 'Middelfijn tot fijn',     amountPerCup: 50,     ratio: { coffee: 1, amount: 10 },     resultLabel: 'Water',     unit: 'ml',     waterTemperatureC: 90,     note: 'Gebruik een mokapot met passende capaciteit: vul het filtermandje met koffie en het waterreservoir tot onder het veiligheidsventiel. De aangegeven hoeveelheden zijn een richtlijn.',   }, ]
+         */
+        "methods": BrewMethod[];
     }
 }
 declare global {
@@ -22,6 +29,11 @@ declare global {
 }
 declare namespace LocalJSX {
     interface CoffeeCalculator {
+        /**
+          * Brew methods to display.
+          * @default [   {     id: 'filter',     name: 'Filterkoffie',     grindSize: 'Gemiddeld',     amountPerCup: 250,     ratio: { coffee: 1, amount: 15 },     resultLabel: 'Water',     unit: 'ml',     waterTemperatureC: 94,   },   {     id: 'aeropress',     name: 'AeroPress',     grindSize: 'Middelfijn',     amountPerCup: 230,     ratio: { coffee: 1, amount: 14 },     resultLabel: 'Water',     unit: 'ml',     waterTemperatureC: 95,     note: 'Zet grotere hoeveelheden in meerdere batches als ze niet in je AeroPress passen.',   },   {     id: 'espresso',     name: 'Espresso',     grindSize: 'Fijn',     amountPerCup: 36,     ratio: { coffee: 1, amount: 2 },     resultLabel: 'Espresso-opbrengst',     unit: 'g',     waterTemperatureC: 93,     note: 'Eén kopje is een dubbele espresso. De hoeveelheid water die de machine gebruikt verschilt; de opbrengst is het gewicht van de espresso in je kopje.',   },   {     id: 'moka-pot',     name: 'Mokapot',     grindSize: 'Middelfijn tot fijn',     amountPerCup: 50,     ratio: { coffee: 1, amount: 10 },     resultLabel: 'Water',     unit: 'ml',     waterTemperatureC: 90,     note: 'Gebruik een mokapot met passende capaciteit: vul het filtermandje met koffie en het waterreservoir tot onder het veiligheidsventiel. De aangegeven hoeveelheden zijn een richtlijn.',   }, ]
+         */
+        "methods"?: BrewMethod[];
     }
     interface IntrinsicElements {
         "coffee-calculator": CoffeeCalculator;

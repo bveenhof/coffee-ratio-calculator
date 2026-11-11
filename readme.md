@@ -28,6 +28,25 @@ Then add it to your page:
 <coffee-calculator></coffee-calculator>
 ```
 
+The component uses its built-in example recipes if `methods` is omitted or
+empty. To provide your own recipes, assign an array as a JavaScript property,
+not an HTML attribute. A non-array value (such as a URL string) displays an
+error; load and parse URL data in your application before assigning it:
+
+```js
+import { defaultBrewMethods } from 'coffee-ratio-calculator';
+
+const calculator = document.querySelector('coffee-calculator');
+calculator.methods = defaultBrewMethods;
+```
+
+The `methods` property expects an array of recipe objects, not a file URL. Load
+data from a URL in your application first, then assign the parsed array.
+
+Each method follows the `BrewMethod` type exported by the package. When the
+provided methods change, the current selection is kept if its `id` is still
+available; otherwise, the first method is selected.
+
 Alternatively, register the lazy-loaded components with the package loader:
 
 ```js
