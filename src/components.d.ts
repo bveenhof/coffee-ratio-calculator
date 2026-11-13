@@ -15,6 +15,14 @@ export namespace Components {
          */
         "methods": BrewMethod[];
     }
+    interface ModalComponent {
+        "close": () => Promise<void>;
+        /**
+          * @default false
+         */
+        "open": boolean;
+        "showModal": () => Promise<void>;
+    }
 }
 declare global {
     interface HTMLCoffeeCalculatorElement extends Components.CoffeeCalculator, HTMLStencilElement {
@@ -23,8 +31,15 @@ declare global {
         prototype: HTMLCoffeeCalculatorElement;
         new (): HTMLCoffeeCalculatorElement;
     };
+    interface HTMLModalComponentElement extends Components.ModalComponent, HTMLStencilElement {
+    }
+    var HTMLModalComponentElement: {
+        prototype: HTMLModalComponentElement;
+        new (): HTMLModalComponentElement;
+    };
     interface HTMLElementTagNameMap {
         "coffee-calculator": HTMLCoffeeCalculatorElement;
+        "modal-component": HTMLModalComponentElement;
     }
 }
 declare namespace LocalJSX {
@@ -35,8 +50,20 @@ declare namespace LocalJSX {
          */
         "methods"?: BrewMethod[];
     }
+    interface ModalComponent {
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+    }
+
+    interface ModalComponentAttributes {
+        "open": boolean;
+    }
+
     interface IntrinsicElements {
         "coffee-calculator": CoffeeCalculator;
+        "modal-component": Omit<ModalComponent, keyof ModalComponentAttributes> & { [K in keyof ModalComponent & keyof ModalComponentAttributes]?: ModalComponent[K] } & { [K in keyof ModalComponent & keyof ModalComponentAttributes as `attr:${K}`]?: ModalComponentAttributes[K] } & { [K in keyof ModalComponent & keyof ModalComponentAttributes as `prop:${K}`]?: ModalComponent[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -44,6 +71,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "coffee-calculator": LocalJSX.IntrinsicElements["coffee-calculator"] & JSXBase.HTMLAttributes<HTMLCoffeeCalculatorElement>;
+            "modal-component": LocalJSX.IntrinsicElements["modal-component"] & JSXBase.HTMLAttributes<HTMLModalComponentElement>;
         }
     }
 }
