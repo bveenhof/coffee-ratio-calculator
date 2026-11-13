@@ -29,6 +29,15 @@ Then add it to your page:
 <coffee-calculator></coffee-calculator>
 ```
 
+## Testing
+
+To run tests, use `npm run test`. This wil run the tests found in:
+ - coffee-calculator.cmp.test.tsx
+ - coffee-calculator.unit.test.tsx
+
+The CMP runs Playwrights tests and tests things like interaction and proper rendering of the component. 
+The Unit tests check if the components logic is working.
+
 
 ## ToDo
 
