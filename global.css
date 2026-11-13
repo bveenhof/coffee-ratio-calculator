@@ -63,19 +63,30 @@ fieldset {
     margin-bottom: 0.5rem;
   }
 
-button {
+.button {
   outline: none;
-  border-radius: 50%;
-  border: 1px solid #5d2406;
-  background: transparent;
+  border: none;
+  border-radius: 12px;
+  background-color: #823612;
+  color: white;
   font: inherit;
-  font-size: 20px;
+  font-size: 1rem;
   cursor: pointer;
-  height: 3rem;
-  width: 3rem;
   line-height: 1;
+  padding: 0.5rem 1rem;
   transition: background-color 0.32s ease-in-out, color 0.32s ease-in-out;
 }
+
+  .button--round {
+    border-radius: 50%;
+    color: #272727;
+    font-size: 1.25rem;
+    height: 3rem;
+    width: 3rem;
+    background: transparent;
+    border: 1px solid #5d2406;
+    padding: 0;
+  }
 
   button:hover:enabled {
     background-color: #6c5e51;

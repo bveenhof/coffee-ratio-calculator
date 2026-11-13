@@ -1,6 +1,7 @@
 import { Component, Prop, State, Watch, h } from '@stencil/core';
 import { BrewMethod, CoffeeStrength } from './types';
 import { methods as mockMethods } from './mock-data';
+import { ModalComponent }from '../modal/modal-component';
 
 const coffeeStrengths: { id: CoffeeStrength; label: string }[] = [
   { id: 'mild', label: 'Mild' },
@@ -109,7 +110,7 @@ export class CoffeeCalculator {
             <div role="group" aria-labelledby="cups-label" class="coffee-calculator__cup-amount-controls">
               <button
                 type="button"
-                class="button"
+                class="button button--round"
                 id="cups-decrease"
                 aria-label="Minder kopjes"
                 disabled={this.cups <= 1}
@@ -120,7 +121,7 @@ export class CoffeeCalculator {
               <span id="coffee-calculator__cups-value">{this.cups} {cupLabel}</span>
               <button
                 type="button"
-                class="button"
+                class="button button--round"
                 id="cups-increase"
                 aria-label="Meer kopjes"
                 disabled={this.cups >= 10}
@@ -133,10 +134,19 @@ export class CoffeeCalculator {
 
           <fieldset class="coffee-calculator__radio-list">
             <legend>Kies je sterkte</legend>
-              <div class="coffee-calculator__radio-list-items">
-                {renderedCoffeeStrengthOptions}
-              </div>
+            <div class="coffee-calculator__radio-list-items">
+              {renderedCoffeeStrengthOptions}
+            </div>
           </fieldset>
+
+          <div class="coffee-calculator__review">
+            <h3 id="coffee-review">Hoe was de koffie?</h3 >
+            <div role="group" aria-labelledby="coffee-review" class="coffee-calculator__review-controls">
+              <button class="button" type="button" aria-label="Te zwak">Te zwak</button>
+              <button class="button" type="button" aria-label="Acidisch">Acidisch </button>
+              <button class="button" type="button" aria-label="Bitter">Bitter</button>
+            </div>
+          </div>
         </section>
 
         <section class="coffee-calculator__results" aria-labelledby="results-heading" aria-live="polite" aria-atomic="true">
@@ -173,6 +183,10 @@ export class CoffeeCalculator {
           </ul>
           {method.note && <p>{method.note}</p>}
         </section>
+
+        <ModalComponent>
+          <p>Dit is een modale inhoud.</p>
+        </ModalComponent>
       </div>
     );
   }
